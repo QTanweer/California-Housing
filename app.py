@@ -6,8 +6,11 @@ import pickle
 
 # create flask app
 app = Flask(__name__)
-# load the model
-model = pickle.load(open('model.pkl', 'rb'))
+
+# load the model and scaler
+model = pickle.load(open('model.pkl', 'rb')) 
+scaler = pickle.load(open('scaler.pkl', 'rb'))
+
 
 # create a route for the home page
 @app.route('/')
@@ -19,4 +22,24 @@ def home():
 def predict_api():
     # get the values from the form
     data = request.get_json(force=True)
+        
     # convert the values to a numpy array
+    data = np.array(list(data.reshape(1, -1)))
+    
+    # scale the data
+    transformed_data = scaler.transform(data)
+    
+    # make the prediction
+    prediction = model.predict(transformed_data)
+    print(prediction)
+
+    # return the prediction
+    output = prediction[0]
+    return jsonify(output)
+
+# run the app
+if __name__ == "__main__":
+    app.run(debug=True)
+
+# Path: home.html
+# html page for the home page
