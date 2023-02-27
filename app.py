@@ -24,7 +24,7 @@ def predict_api():
     data = request.get_json(force=True)
         
     # convert the values to a numpy array
-    data = np.array(list(data.reshape(1, -1)))
+    data = np.array(list(data.values().reshape(1, -1)))
     
     # scale the data
     transformed_data = scaler.transform(data)
