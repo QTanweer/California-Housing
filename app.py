@@ -42,4 +42,4 @@ def predict_api():
 if __name__ == "__main__":
     app.run(debug=True)
 
-# Path: home.html
+# Path: templates/home.html
