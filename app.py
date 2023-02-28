@@ -40,20 +40,21 @@ def predict_api():
 
 
 
-@app.route('/predict',methods=['POST'])
+@app.route('/predict',methods=['POST', 'GET'])
 def predict():
     '''
     For rendering results on HTML GUI
     '''
-    float_features = [float(x) for x in request.form.values()]
-    final_features = scalar.transform([np.array(float_features)].reshape(1,-1))
-    prediction = model.predict(final_features)
+    if request.method == 'POST':
+         float_features = [float(x) for x in request.form.values()]
+         final_features = scalar.transform([np.array(float_features)])
+         prediction = model.predict(final_features)
+         
+         output = round(prediction[0], 2)
+         return render_template('predict.html', prediction_text='The predicted house price is {}'.format(output))
 
-    output = round(prediction[0], 2)
-
-    return render_template('predict.html', prediction_text='The predicted house price is {}'.format(output))
-
-
+    else :
+        return render_template('predict.html')
 
 
 # run the app
