@@ -43,4 +43,3 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 # Path: home.html
-# html page for the home page
